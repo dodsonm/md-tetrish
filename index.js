@@ -37,9 +37,9 @@ drawRect(gameBoard.ctx, 0, 0, GAME_WIDTH, GAME_HEIGHT, GAME_BGCOLOR);
  * @type {Array}
  */
 const MATRIX = [
+  [0, 0, 0],
   [1, 1, 1],
   [0, 1, 0],
-  [0, 0, 0],
 ];
 
-drawMatrix(gameBoard.ctx, MATRIX, 'magenta');
+drawMatrix(gameBoard.ctx, MATRIX, 'magenta', { x: 0, y: -1 });
