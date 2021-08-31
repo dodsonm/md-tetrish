@@ -43,15 +43,6 @@ function createMatrix(w, h) {
   return MATRIX;
 }
 
-// Shapes match the letters L,O,S,T,J,I,Z
-function createPiece(shape) {
-  let matrix = [];
-  switch (shape) {
-    case 'T':
-      break;
-  }
-}
-
 // draws & redraws background & player piece
 function draw() {
   // Add a background rect
@@ -88,6 +79,14 @@ function playerMove(dir) {
     if (collide(ARENA, PLAYER)) {
       PLAYER.pos.x -= dir;
     }
+}
+
+function playerReset() {
+  const SHAPE_KEYS  = Object.getKeys(SHAPES);
+  PLAYER.matrix = SHAPES[SHAPE_KEYS[SHAPE_KEYS.length * Math.random() | 0]];
+  PLAYER.pos.y = 0;
+  PLAYER.pos.x = Math.floor(ARENA_COLS / 2) -
+                 Math.floor(PLAYER.matrix[0].length / 2);
 }
 
 function playerRotate(dir) {
