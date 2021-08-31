@@ -1,3 +1,13 @@
+export const COLORS  = {
+  I: 'darkcyan',
+  J: 'orange',
+  L: 'navy',
+  O: 'gold',
+  S: 'red',
+  T: 'magenta',
+  Z: 'green',
+}
+
 export const SHAPES = {
   I: [
     [0, 1, 0, 0],
@@ -32,6 +42,6 @@ export const SHAPES = {
   Z: [
     [1, 1, 0],
     [0, 1, 1],
-    [0, 0, 0],                    
+    [0, 0, 0],
   ],
 }

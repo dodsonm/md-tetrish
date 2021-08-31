@@ -1,7 +1,7 @@
 import { create as createCanvas } from './modules/canvas.mjs';
 import { draw as drawRect } from './modules/rect.mjs';
 import { draw as drawMatrix } from './modules/dot-matrix.mjs';
-import { SHAPES } from './modules/tetronimo.mjs';
+import { SHAPES, COLORS } from './modules/tetronimo.mjs';
 
 // If we get this far, then its safe to remove the noscript & feature-check
 // messages in the DOM. We're going to be forcing a render tree update anyway.
@@ -48,9 +48,9 @@ function draw() {
   // Add a background rect
   drawRect(gameBoard.ctx, 0, 0, GAME_WIDTH, GAME_HEIGHT, GAME_BGCOLOR);
   // Current, "player" game piece
-  drawMatrix(gameBoard.ctx, ARENA, 'pink');
+  drawMatrix(gameBoard.ctx, ARENA, PLAYER.color);
   // Current, "player" game piece
-  drawMatrix(gameBoard.ctx, PLAYER.matrix, 'magenta', PLAYER.pos);
+  drawMatrix(gameBoard.ctx, PLAYER.matrix, PLAYER.color, PLAYER.pos);
 }
 
 // copy PLAYER matrix into ARENA matrix
@@ -69,6 +69,7 @@ function playerDrop() {
   if (collide(ARENA, PLAYER)) {
     PLAYER.pos.y--;
     merge(ARENA, PLAYER);
+    playerReset();
     PLAYER.pos.y = 0;
   }
   dropCounter = 0;
@@ -82,8 +83,11 @@ function playerMove(dir) {
 }
 
 function playerReset() {
-  const SHAPE_KEYS  = Object.getKeys(SHAPES);
-  PLAYER.matrix = SHAPES[SHAPE_KEYS[SHAPE_KEYS.length * Math.random() | 0]];
+  const SHAPE_KEYS  = Object.keys(SHAPES);
+  const CURRENT_SHAPE = SHAPE_KEYS[SHAPE_KEYS.length * Math.random() | 0];
+  console.log(CURRENT_SHAPE);
+  PLAYER.matrix = SHAPES[CURRENT_SHAPE];
+  PLAYER.color = COLORS[CURRENT_SHAPE];
   PLAYER.pos.y = 0;
   PLAYER.pos.x = Math.floor(ARENA_COLS / 2) -
                  Math.floor(PLAYER.matrix[0].length / 2);
