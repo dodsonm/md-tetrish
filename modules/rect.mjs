@@ -1,11 +1,12 @@
-function draw(ctx, length, x, y, color) {
+function draw(ctx, x, y, w, h, color) {
   ctx.fillStyle = color;
-  ctx.fillRect(x, y, length, length);
+  ctx.fillRect(x, y, w, h);
 
   return {
-    length: length,
     x: x,
     y: y,
+    w: w,
+    h: h,
     color: color
   };
 }
