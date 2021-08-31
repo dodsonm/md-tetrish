@@ -19,10 +19,22 @@
         background-color: rgba(0, 0, 0, 0.3);
         border: 1px dotted #cfc;
       }
+      header {
+        text-align: center;
+      }
       h1 {
         color: #C6F691;
         font-family: 'Bebas Neue', sans-serif;
         font-size: 120px;
+        margin-top: 1.6rem;
+      }
+      h1 small {
+        font-size: .5em;
+      }
+      header h1 sup {
+        display: block;
+        font-size: 0.25em;
+        top: calc(0.25em - 1.6rem / 2); /* i.e. font-size - 1/2 parent's top margin */
       }
       .wrapper {
         display: grid;
@@ -35,18 +47,18 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1>Tetronimo Tennis</h1>
+        <h1><sup>sort of like</sup>Tetris</h1>
       </header>
       <main>
-        <section class="err">
+        <section id="preflight-err" class="err">
           <noscript><h2>Sorry, JavaScript is required.</h2></noscript>
-          <div id="js-fail" style="visibility:hidden;">
-            <h2>Sorry, this game relies on JavaScript modules.</h2>
+          <div id="js-module-fail" style="visibility:hidden;">
+            <h2>Sorry, this game relies on JavaScript Modules.</h2>
             <h3>Please try: Chrome v61, Edge v16, Firefox v60, or Safari v10.1</h3>
           </div>
           <script type="text/javascript">
             if (!'noModule' in HTMLScriptElement.prototype) {
-              document.querySelector('#js-fail').style.visibility = 'visible';
+              document.querySelector('#js-module-fail').style.visibility = 'visible';
             }
           </script>
         </section>
