@@ -1,14 +1,6 @@
 import { draw as drawRect } from './rect.mjs';
 
-function draw(ctx, matrix, color, offset) {
-  // default offset coords to zeroes
-  if (!offset) {
-    offset = {
-      x: 0,
-      y: 0,
-    };
-  }
-
+function draw(ctx, matrix, color, offset = { x: 0, y: 0 }) {
   matrix.forEach((row, y) => {
     row.forEach((val, x) => {
       if (!!val) {
