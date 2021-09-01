@@ -14,7 +14,9 @@ const GAME_WIDTH = ARENA_COLS * SCALE_X;
 const GAME_HEIGHT = ARENA_ROWS * SCALE_Y;
 const PLAYER = {
   pos: {x: 0, y: 0},
-  matrix: SHAPES.I,
+  matrix: [
+    [0],
+  ],
 };
 const ARENA = createMatrix(ARENA_COLS, ARENA_ROWS);
 
@@ -31,7 +33,6 @@ function collide(arena, player) {
   }
   return false;
 }
-
 // creates an empty ARENA
 function createMatrix(w, h) {
   const MATRIX = [];
@@ -40,8 +41,7 @@ function createMatrix(w, h) {
   }
   return MATRIX;
 }
-
-// draws & redraws background & player piece
+// draws & redraws background, landed pieces, & current player piece
 function drawGame() {
   // Add a background rect
   drawRect(gameBoard.ctx, 0, 0, GAME_WIDTH, GAME_HEIGHT, GAME_BGCOLOR);
@@ -50,7 +50,6 @@ function drawGame() {
   // Current, dropping game piece
   drawMatrix(gameBoard.ctx, PLAYER.matrix, PLAYER.pos);
 }
-
 // copy PLAYER matrix into ARENA matrix
 function merge(arena, player) {
   player.matrix.forEach((row, y) => {
@@ -61,7 +60,7 @@ function merge(arena, player) {
     });
   });
 }
-// handles auto & manual falling of player piece
+// handles down key movement, auto falling of player piece, & y-collsions
 function playerDrop() {
   PLAYER.pos.y++;
   if (collide(ARENA, PLAYER)) {
@@ -72,14 +71,14 @@ function playerDrop() {
   }
   dropCounter = 0;
 }
-
+// handles left/right key movement of player piece
 function playerMove(dir) {
     PLAYER.pos.x += dir;
     if (collide(ARENA, PLAYER)) {
       PLAYER.pos.x -= dir;
     }
 }
-
+// sets player.matrix to a random selection & sets player.pos to top & center
 function playerReset() {
   const SHAPE_KEYS  = Object.keys(SHAPES);
   const CURRENT_SHAPE = SHAPE_KEYS[SHAPE_KEYS.length * Math.random() | 0];
@@ -88,7 +87,7 @@ function playerReset() {
   PLAYER.pos.x = Math.floor(ARENA_COLS / 2) -
                  Math.floor(PLAYER.matrix[0].length / 2);
 }
-
+// handles rotation of player piece, checking for collisions
 function playerRotate(dir) {
   let offset = 1;
   rotate(PLAYER.matrix, dir);
@@ -102,7 +101,6 @@ function playerRotate(dir) {
     }
   }
 }
-
 // rotating matrices: first transpose rows -> cols, then reverse()
 function rotate(matrix, dir) {
   // transpose
@@ -126,6 +124,9 @@ function rotate(matrix, dir) {
   }
 }
 
+/**
+ *  GAME INITIALIZATION
+ */
 /**
  * HTMLElement in which we inset our gameBoard canvas
  * @type {Object}
@@ -159,9 +160,12 @@ function update(time = 0) {
     drawGame();
     requestAnimationFrame(update);
 }
+playerReset();
 update();
 
-// keyboard controller
+/**
+ * GAME CONTROLS
+ */
 document.addEventListener('keydown', (e) => {
   switch (e.keyCode) {
     case 37: // keypad left
