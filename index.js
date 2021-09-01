@@ -1,7 +1,7 @@
 import { create as createCanvas } from './modules/canvas.mjs';
 import { draw as drawRect } from './modules/rect.mjs';
 import { draw as drawMatrix } from './modules/dot-matrix.mjs';
-import { SHAPES } from './modules/tetronimo.mjs';
+import { PIECES, SHAPES } from './modules/tetronimo.mjs';
 
 // If we get this far, then its safe to remove the noscript & feature-check
 // messages in the DOM. We're going to be forcing a render tree update anyway.
@@ -13,6 +13,8 @@ const GAME_BGCOLOR = '#00000066';
 const GAME_WIDTH = ARENA_COLS * SCALE_X;
 const GAME_HEIGHT = ARENA_ROWS * SCALE_Y;
 const PLAYER = {
+  onColor: '#F00',
+  offColor: '#FF0',
   pos: {x: 0, y: 0},
   matrix: [
     [0],
@@ -48,14 +50,14 @@ function drawGame() {
   // Landed game pieces are merged into ARENA matrix
   drawMatrix(gameBoard.ctx, ARENA);
   // Current, dropping game piece
-  drawMatrix(gameBoard.ctx, PLAYER.matrix, PLAYER.pos);
+  drawMatrix(gameBoard.ctx, PLAYER.matrix, PLAYER.pos, PLAYER.onColor);
 }
-// copy PLAYER matrix into ARENA matrix
+// stores landed pieces by copying PLAYER matrix into ARENA matrix
 function merge(arena, player) {
   player.matrix.forEach((row, y) => {
     row.forEach((val, x) => {
       if (!!val) {
-        arena[y + player.pos.y][x + player.pos.x] = val;
+        arena[y + player.pos.y][x + player.pos.x] = player.offColor;
       }
     });
   });
@@ -80,12 +82,13 @@ function playerMove(dir) {
 }
 // sets player.matrix to a random selection & sets player.pos to top & center
 function playerReset() {
-  const SHAPE_KEYS  = Object.keys(SHAPES);
-  const CURRENT_SHAPE = SHAPE_KEYS[SHAPE_KEYS.length * Math.random() | 0];
-  PLAYER.matrix = SHAPES[CURRENT_SHAPE];
+  const CURRENT_PIECE = PIECES[Math.floor(PIECES.length * Math.random())];
+  PLAYER.onColor = CURRENT_PIECE.onColor;
+  PLAYER.offColor = CURRENT_PIECE.offColor;
+  PLAYER.matrix = CURRENT_PIECE.matrix;
   PLAYER.pos.y = 0;
   PLAYER.pos.x = Math.floor(ARENA_COLS / 2) -
-                 Math.floor(PLAYER.matrix[0].length / 2);
+                 Math.floor(CURRENT_PIECE.getWidth() / 2);
 }
 // handles rotation of player piece, checking for collisions
 function playerRotate(dir) {

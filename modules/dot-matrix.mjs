@@ -11,7 +11,9 @@ function draw(ctx, matrix, offset = { x: 0, y: 0 }, color = '#999') {
   matrix.forEach((row, y) => {
     row.forEach((val, x) => {
       if (!!val) {
-        drawRect(ctx, x + offset.x, y + offset.y, 1, 1, color);
+        // truthy vals may be a Number 1 or it may be a CSS color string so...
+        let clr = (typeof val === 'string')? val: color;
+        drawRect(ctx, x + offset.x, y + offset.y, 1, 1, clr);
       }
     });
   });
