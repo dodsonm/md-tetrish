@@ -1,7 +1,7 @@
 import { create as createCanvas } from './modules/canvas.mjs';
 import { draw as drawRect } from './modules/rect.mjs';
 import { draw as drawMatrix } from './modules/dot-matrix.mjs';
-import { SHAPES, COLORS } from './modules/tetronimo.mjs';
+import { SHAPES } from './modules/tetronimo.mjs';
 
 // If we get this far, then its safe to remove the noscript & feature-check
 // messages in the DOM. We're going to be forcing a render tree update anyway.
@@ -12,12 +12,10 @@ const [SCALE_X, SCALE_Y] = [20, 20];
 const GAME_BGCOLOR = '#00000066';
 const GAME_WIDTH = ARENA_COLS * SCALE_X;
 const GAME_HEIGHT = ARENA_ROWS * SCALE_Y;
-
 const PLAYER = {
   pos: {x: 0, y: 0},
-  matrix: SHAPES.T,
+  matrix: SHAPES.I,
 };
-
 const ARENA = createMatrix(ARENA_COLS, ARENA_ROWS);
 
 function collide(arena, player) {
@@ -44,21 +42,21 @@ function createMatrix(w, h) {
 }
 
 // draws & redraws background & player piece
-function draw() {
+function drawGame() {
   // Add a background rect
   drawRect(gameBoard.ctx, 0, 0, GAME_WIDTH, GAME_HEIGHT, GAME_BGCOLOR);
-  // Current, "player" game piece
-  drawMatrix(gameBoard.ctx, ARENA, PLAYER.color);
-  // Current, "player" game piece
-  drawMatrix(gameBoard.ctx, PLAYER.matrix, PLAYER.color, PLAYER.pos);
+  // Landed game pieces are merged into ARENA matrix
+  drawMatrix(gameBoard.ctx, ARENA);
+  // Current, dropping game piece
+  drawMatrix(gameBoard.ctx, PLAYER.matrix, PLAYER.pos);
 }
 
 // copy PLAYER matrix into ARENA matrix
-function merge(ARENA, PLAYER) {
-  PLAYER.matrix.forEach((row, y) => {
+function merge(arena, player) {
+  player.matrix.forEach((row, y) => {
     row.forEach((val, x) => {
       if (!!val) {
-        ARENA[y + PLAYER.pos.y][x + PLAYER.pos.x] = val;
+        arena[y + player.pos.y][x + player.pos.x] = val;
       }
     });
   });
@@ -85,9 +83,7 @@ function playerMove(dir) {
 function playerReset() {
   const SHAPE_KEYS  = Object.keys(SHAPES);
   const CURRENT_SHAPE = SHAPE_KEYS[SHAPE_KEYS.length * Math.random() | 0];
-  console.log(CURRENT_SHAPE);
   PLAYER.matrix = SHAPES[CURRENT_SHAPE];
-  PLAYER.color = COLORS[CURRENT_SHAPE];
   PLAYER.pos.y = 0;
   PLAYER.pos.x = Math.floor(ARENA_COLS / 2) -
                  Math.floor(PLAYER.matrix[0].length / 2);
@@ -140,7 +136,6 @@ let gameHost = document.querySelector('#tetrish-game');
  * @type {Object}
  */
 let gameBoard = createCanvas('gameBoard', gameHost, GAME_WIDTH, GAME_HEIGHT);
-
 // A high scale makes it easier to use 2D matrices to describe our game pieces,
 // nudge things as they fall, etc.
 gameBoard.ctx.scale(SCALE_X, SCALE_Y);
@@ -161,7 +156,7 @@ function update(time = 0) {
       playerDrop();
     }
 
-    draw();
+    drawGame();
     requestAnimationFrame(update);
 }
 update();
