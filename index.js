@@ -22,6 +22,20 @@ const PLAYER = {
 };
 const ARENA = createMatrix(ARENA_COLS, ARENA_ROWS);
 
+// clear complete rows
+function arenaSweep() {
+  outer: for (let y = ARENA.length - 1; y > 0; --y) {
+    for (let x = 0; x < ARENA[y].length; ++x) {
+      if (ARENA[y][x] === 0) {
+        continue outer;
+      }
+    }
+    const ROW = ARENA.splice(y, 1)[0].fill(0);
+    ARENA.unshift(ROW);
+    ++y;
+  }
+}
+// collision detection
 function collide(arena, player) {
   const [m, o] = [player.matrix, player.pos];
   for (let y = 0; y < m.length; ++y) {
@@ -69,7 +83,7 @@ function playerDrop() {
     PLAYER.pos.y--;
     merge(ARENA, PLAYER);
     playerReset();
-    PLAYER.pos.y = 0;
+    arenaSweep();
   }
   dropCounter = 0;
 }
@@ -89,6 +103,10 @@ function playerReset() {
   PLAYER.pos.y = 0;
   PLAYER.pos.x = Math.floor(ARENA_COLS / 2) -
                  Math.floor(CURRENT_PIECE.getWidth() / 2);
+  // GAME OVER
+  if (collide(ARENA, PLAYER)) {
+    ARENA.forEach(row => row.fill(0));
+  }
 }
 // handles rotation of player piece, checking for collisions
 function playerRotate(dir) {
