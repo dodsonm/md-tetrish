@@ -162,28 +162,32 @@ let gameBoard = createCanvas('gameBoard', gameHost, GAME_WIDTH, GAME_HEIGHT);
 // nudge things as they fall, etc.
 gameBoard.ctx.scale(SCALE_X, SCALE_Y);
 
-/**
- * GAME ENGINE
- * @return {[type]} [description]
- */
+// tracks milliseconds since last redraw
 let dropCounter = 0;
+// sets redraw speed in milliseconds
 let dropInterval = 1000;
+// tracks milliseconds since last requestAnimationFrame call
 let lastTime = 0;
+// get our first game piece
+playerReset();
+// kick off the game loop
+update();
+/**
+ * GAME LOOP
+ * Since we want our game to redraw at one frame per second (1fps), we have to
+ * track time manually between requestAnimationFrame(update) calls.
+ */
 function update(time = 0) {
     const DELTA_TIME = time - lastTime;
     lastTime = time;
-
     dropCounter += DELTA_TIME;
+
     if (dropCounter > dropInterval) {
       playerDrop();
     }
-
     drawGame();
     requestAnimationFrame(update);
 }
-playerReset();
-update();
-
 /**
  * GAME CONTROLS
  */
