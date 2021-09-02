@@ -1,7 +1,7 @@
 import { create as createCanvas } from './modules/canvas.mjs';
 import { draw as drawRect } from './modules/rect.mjs';
 import { draw as drawMatrix } from './modules/dot-matrix.mjs';
-import { PIECES, SHAPES } from './modules/tetronimo.mjs';
+import { PIECES } from './modules/tetronimo.mjs';
 
 // If we get this far, then its safe to remove the noscript & feature-check
 // messages in the DOM. We're going to be forcing a render tree update anyway.
