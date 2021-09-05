@@ -7,13 +7,14 @@ import { draw as drawRect } from './rect.mjs';
  * @param  {[type]} matrix    2D array to describe shape
  * @param  {Object} [offset={ x: 0, y: 0 }]
  */
-function draw(ctx, matrix, offset = { x: 0, y: 0 }, color = '#999') {
+function draw(ctx, matrix, offset = { x: 0, y: 0 },
+              fillStyle = '#666', strokeStyle = '#333') {
   matrix.forEach((row, y) => {
     row.forEach((val, x) => {
       if (!!val) {
         // truthy vals may be a Number 1 or it may be a CSS color string so...
-        let clr = (typeof val === 'string')? val: color;
-        drawRect(ctx, x + offset.x, y + offset.y, 1, 1, clr);
+        let clr = (typeof val === 'string')? val: fillStyle;
+        drawRect(ctx, x + offset.x, y + offset.y, 1, 1, clr, strokeStyle);
       }
     });
   });
