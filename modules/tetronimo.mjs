@@ -10,9 +10,6 @@ export const PIECES = [
       [0, 1, 0, 0],
       [0, 1, 0, 0],
     ],
-    getWidth() {
-      return this.matrix[0].length;
-    },
   },
   {
     code: 'J',
@@ -23,9 +20,6 @@ export const PIECES = [
       [0, 1, 0],
       [1, 1, 0],
     ],
-    getWidth() {
-      return this.matrix[0].length;
-    },
   },
   {
     code: 'L',
@@ -36,9 +30,6 @@ export const PIECES = [
       [0, 1, 0],
       [0, 1, 1],
     ],
-    getWidth() {
-      return this.matrix[0].length;
-    },
   },
   {
     code: 'O',
@@ -48,9 +39,6 @@ export const PIECES = [
       [1, 1],
       [1, 1],
     ],
-    getWidth() {
-      return this.matrix[0].length;
-    },
   },
   {
     code: 'S',
@@ -61,9 +49,6 @@ export const PIECES = [
       [1, 1, 0],
       [0, 0, 0],
     ],
-    getWidth() {
-      return this.matrix[0].length;
-    },
   },
   {
     code: 'T',
@@ -74,9 +59,6 @@ export const PIECES = [
       [1, 1, 1],
       [0, 0, 0],
     ],
-    getWidth() {
-      return this.matrix[0].length;
-    },
   },
   {
     code: 'Z',
@@ -87,8 +69,11 @@ export const PIECES = [
       [0, 1, 1],
       [0, 0, 0],
     ],
-    getWidth() {
-      return this.matrix[0].length;
-    },
   },
 ];
+
+PIECES.forEach((el) => {
+  el.getWidth = () => {
+    return el.matrix[0].length
+  }
+});
