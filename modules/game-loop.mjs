@@ -1,32 +1,40 @@
-const UPDATE_RATE = 1000; //in ms
-let prevRealTime = new Date().getTime();
-let gameClockLag = 0.0; // Delta between game clock and real world clock
-
-(function runGame() {
-  let currentRealTime = new Date().getTime();
-  let elapsedRealTime = currentRealTime - prevRealTime;
-
-  prevRealTime = currentRealTime;
-  gameClockLag += elapsedRealTime;
-
-  processInput();
-
-  while (gameClockLag >= UPDATE_RATE) {
-    update();
-    gameClockLag -= UPDATE_RATE;
+export default class GameLoop {
+  constructor(updateInterval = 16, prevRealTime = new Date().getTime(),
+              gameClockLag = 0.0) {
+    this.updateInterval = updateInterval; //in ms
+    this.prevRealTime = prevRealTime;
+    this.gameClockLag = gameClockLag; // Delta between game clock and real world clock
   }
 
-  render(gameClockLag / UPDATE_RATE);
-  requestAnimationFrame(runGame);
-})();
+  processInput() {
+    console.info('[GameLoop processInput] Please provide a method definition for processInput() on this GameLoop instance');
+  }
 
-function processInput() {
-}
+  render() {
+    console.info('[GameLoop render] Please provide a method definition for render() on this GameLoop instance');
+  }
 
-function render(gameClockLag = 0) {
-  console.log('Draw to canvas (gameClockLag: %s)', gameClockLag);
-}
+  update() {
+    console.info('[GameLoop update] Please provide a method definition for update() on this GameLoop instance');
+  }
 
-function update() {
-  console.log('Update game data');
+  runGame() {
+    // let currentRealTime = new Date().getTime();
+    // let elapsedRealTime = currentRealTime - this.prevRealTime;
+    //
+    // this.prevRealTime = currentRealTime;
+    // this.gameClockLag += elapsedRealTime;
+    //
+    this.processInput();
+    //
+    // while (this.gameClockLag >= this.updateInterval) {
+    //   this.update();
+    //   this.gameClockLag -= this.updateInterval;
+    // }
+    //
+    // this.render(this.gameClockLag / this.updateInterval);
+    requestAnimationFrame.bind(this, this.runGame);
+    console.log('here');
+    // requestAnimationFrame(this.runGame);
+  }
 }

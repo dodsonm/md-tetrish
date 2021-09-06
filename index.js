@@ -102,7 +102,7 @@ function playerReset() {
   PLAYER.matrix = CURRENT_PIECE.matrix;
   PLAYER.pos.y = 0;
   PLAYER.pos.x = Math.floor(ARENA_COLS / 2) -
-                 Math.floor(CURRENT_PIECE.getWidth() / 2);
+                 Math.floor(CURRENT_PIECE.width / 2);
   // GAME OVER
   if (collide(ARENA, PLAYER)) {
     ARENA.forEach(row => row.fill(0));

@@ -1,4 +1,4 @@
-// TODO consider refactoring PIECES into a collection of Model instances
+// Note: @prop width is added programatically after PIECES initialization
 export const PIECES = [
   {
     code: 'I',
@@ -73,7 +73,7 @@ export const PIECES = [
 ];
 
 PIECES.forEach((el) => {
-  el.getWidth = () => {
-    return el.matrix[0].length
-  }
+  Object.defineProperty(el, 'width', {
+    get() { return el.matrix[0].length },
+  });
 });
