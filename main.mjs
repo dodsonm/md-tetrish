@@ -1,13 +1,3 @@
-// var s = 0;
-//
-// (function loop() {
-//   s++;
-//   console.log('f ', s);
-//   if (s < 5) {
-//     loop();
-//   }
-// })();
-
 import GameLoop from './modules/game-loop.mjs';
 
 let g = new GameLoop();
@@ -23,21 +13,3 @@ g.update = function () {
 }
 
 // g.runGame();
-
-// function Foo() {}
-//
-// Foo.prototype.sentry = 0;
-//
-// Foo.prototype.fart = function() {
-//   this.sentry += 1;
-//   console.log('PPPPBBBTTT! ', this);
-//   if (this.sentry < 3) {
-//     requestAnimationFrame((a) => {
-//       console.log('F: ', this);
-//       this.fart();
-//     });
-//   }
-// }
-//
-// var x = new Foo();
-// x.fart();
