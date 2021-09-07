@@ -1,15 +1,22 @@
 import { draw as drawMatrix, createMatrix } from './dot-matrix.mjs';
+import Tile from './tile.mjs';
 
 export default class Player {
-  offColor;
-  onColor;
-  matrix;
+  tile;
   position;
 
-  constructor(m = [[1]], p = {x:0,y:0}, onc = '#999', offc = '#ccc') {
-    this.matrix = m;
-    this.position = p;
-    this.onColor = onc;
-    this.offColor = offc;
+  constructor() {
+    this.tile = new Tile();
+  }
+  reset() {
+    this.tile.randomize();
+    this.position = { x: 0, y: 0 };
+  }
+  moveTo(x, y) {
+    this.position.x = x;
+    this.position.y = y;
+  }
+  get color() {
+    return this.tile.onColor;
   }
 }

@@ -7,16 +7,22 @@ import Player from './modules/player.mjs';
 // import GameController from './modules/game-controller.mjs';
 // import Observer from './modules/observer.mjs';
 //
+// THIS WAS IN PLAYER CONSTRUCTOR
+// GAME OVER
+// if (collide(ARENA, PLAYER)) {
+//   ARENA.forEach(row => row.fill(0));
+// }
+//
 const GAME_CONFIG = {
-  ref: 'game-board',
-  hostEl: document.querySelector('#tetrish-game'),
+  bgc: '#00000066',
   cols: 12,
+  get height() { return this.rows * this.scale },
+  hostEl: document.querySelector('#tetrish-game'),
+  ref: 'game-board',
   rows: 20,
   scale: 20,
   get width() { return this.cols * this.scale },
-  get height() { return this.rows * this.scale },
-  bgc: '#00000066',
-}
+};
 let gameBoard =
   new GameBoard(
     GAME_CONFIG.ref,
@@ -25,9 +31,10 @@ let gameBoard =
     GAME_CONFIG.height,
     GAME_CONFIG.scale,
   );
-let player = new Player();
 let gameField = new GameField(GAME_CONFIG.cols, GAME_CONFIG.rows);
+let player = new Player();
 let game = new Game(gameBoard, gameField, player);
+game.reset();
 game.render();
 //
 //
