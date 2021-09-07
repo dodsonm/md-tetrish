@@ -1,6 +1,7 @@
 import { create as createCanvas } from './canvas.mjs';
 
 export default class GameBoard {
+  ctx;
   el;
   height;
   host;
@@ -16,6 +17,7 @@ export default class GameBoard {
     this.scale = scale;
 
     this.el = createCanvas(ref, host, w, h);
-    this.el.ctx.scale(scale, scale);
+    this.ctx = this.el.ctx;
+    this.ctx.scale(scale, scale);
   }
 }

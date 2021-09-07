@@ -20,4 +20,12 @@ function draw(ctx, matrix, offset = { x: 0, y: 0 },
   });
 }
 
-export { draw };
+function createMatrix(cols, rows) {
+  const MATRIX = [];
+  while (rows--) {
+    MATRIX.push(new Array(cols).fill(0));
+  }
+  return MATRIX;
+}
+
+export { draw, createMatrix };

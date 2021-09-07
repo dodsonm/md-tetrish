@@ -25,9 +25,10 @@ let gameBoard =
     GAME_CONFIG.height,
     GAME_CONFIG.scale,
   );
-//
-//
-// let game = new Game(gameBoard, gameField, player);
+let player = new Player();
+let gameField = new GameField(GAME_CONFIG.cols, GAME_CONFIG.rows);
+let game = new Game(gameBoard, gameField, player);
+game.render();
 //
 //
 // let gameController = new GameController();
