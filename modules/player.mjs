@@ -16,6 +16,9 @@ export default class Player {
     this.position.x = x;
     this.position.y = y;
   }
+  moveDown() {
+    this.position.y++;
+  }
   get color() {
     return this.tile.onColor;
   }

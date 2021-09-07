@@ -3,7 +3,7 @@ import GameBoard from './modules/game-board.mjs';
 import GameField from './modules/game-field.mjs';
 import Player from './modules/player.mjs';
 
-// import GameLoop from './modules/game-loop.mjs';
+import GameLoop from './modules/game-loop.mjs';
 // import GameController from './modules/game-controller.mjs';
 // import Observer from './modules/observer.mjs';
 //
@@ -36,6 +36,21 @@ let player = new Player();
 let game = new Game(gameBoard, gameField, player);
 game.reset();
 game.render();
+
+let gameLoop = new GameLoop();
+//
+// gameLoop.processInput = function () {
+//   // console.log('processInput ', this);
+// }
+gameLoop.render = function () {
+  game.render();
+}
+gameLoop.update = function () {
+  player.moveDown();
+}
+gameLoop.runGame();
+
+
 //
 //
 // let gameController = new GameController();
@@ -65,21 +80,6 @@ game.render();
 //       break;
 //   }
 // })
-
-
-// let gameLoop = new GameLoop();
-//
-// gameLoop.processInput = function () {
-//   // console.log('processInput ', this);
-// }
-// gameLoop.render = function () {
-//   // console.log('render ', this);
-// }
-// gameLoop.update = function () {
-//   // console.log('UPDATE ', this);
-// }
-//
-// // gameLoop.runGame();
 
 // -------------------------
 // If we get this far, then its safe to remove the noscript & feature-check

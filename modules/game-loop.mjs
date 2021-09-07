@@ -21,7 +21,7 @@ export default class GameLoop {
 
     this.processInput();
 
-    console.log(this.#gameClockLag);
+    // console.log(this.#gameClockLag);
 
     while (this.#gameClockLag >= this.updateInterval) {
       this.update();
