@@ -30,7 +30,6 @@ export default class GameLoop {
 
     this.render(this.#gameClockLag / this.updateInterval);
 
-    requestAnimationFrame.bind(this, GameLoop.runGame);
     requestAnimationFrame((t) => {
       this.runGame();
     });
