@@ -34,7 +34,7 @@ let gameBoard =
 let gameField = new GameField(GAME_CONFIG.cols, GAME_CONFIG.rows);
 let player = new Player();
 let game = new Game(gameBoard, gameField, player);
-game.reset();
+game.readyPlayer();
 game.render();
 
 let gameLoop = new GameLoop();
@@ -47,6 +47,12 @@ gameLoop.render = function () {
 }
 gameLoop.update = function () {
   player.moveDown();
+  if (game.hasCollision()) {
+    player.moveUp();
+    game.mergeTileIntoField();
+    game.readyPlayer();
+    gameField.cleanup();
+  }
 }
 gameLoop.runGame();
 
