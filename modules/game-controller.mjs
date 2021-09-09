@@ -11,16 +11,16 @@ export default class GameController {
         case 37: // keypad left
           this.game.player.moveLeft();
           Observer.dispatch('player/move', 'moveLeft');
-          // if (this.game.hasCollision()) {
-          //   this.game.player.moveRight();
-          // }
+          if (this.game.hasCollision()) {
+            this.game.player.moveRight();
+          }
           break;
         case 39: // keypad right
           this.game.player.moveRight();
           Observer.dispatch('player/move', 'moveRight');
-          // if (this.game.hasCollision()) {
-          //   this.game.player.moveLeft();
-          // }
+          if (this.game.hasCollision()) {
+            this.game.player.moveLeft();
+          }
           break;
         case 38:
           this.game.player.moveUp();
@@ -28,12 +28,12 @@ export default class GameController {
         case 40: // keypad down
           this.game.player.moveDown();
           Observer.dispatch('player/move', 'moveDown');
-          // if (this.game.hasCollision()) {
-          //   this.game.player.moveUp();
-          //   this.game.mergeTileIntoField();
-          //   this.game.readyPlayer();
-          //   this.game.field.cleanup();
-          // }
+          if (this.game.hasCollision()) {
+            this.game.player.moveUp();
+            this.game.mergeTileIntoField();
+            this.game.readyPlayer();
+            this.game.field.cleanup();
+          }
           break;
         case 81: // Q
           this.game.player.rotate(-1);

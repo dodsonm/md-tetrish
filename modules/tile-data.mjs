@@ -61,7 +61,7 @@ export const TILES = [
   },
   {
     code: 'Z',
-    onColor: '#0F)',
+    onColor: '#0F0',
     offColor: '#080',
     matrix: [
       [1, 1, 0],

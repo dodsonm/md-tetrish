@@ -31,49 +31,18 @@ game.readyPlayer();
 game.render();
 
 gameLoop.processInput = function () {
-  switch(game.hasCollision()) {
-    case 'left': break;
-    case 'right': break;
-    case 'bottom':
-    case true:
-      player.moveUp();
-      game.mergeTileIntoField();
-      game.readyPlayer();
-      gameField.cleanup();
-      break;
-  }
-  // if (game.moveStack.length > 0) {
-  //   // we do NOT want to pop() it
-  //   let cmd = game.moveStack[game.moveStack.length-1];
-  //   player[cmd]();
-  // }
-  // if (game.hasCollision()) {
-  //   console.log('BANG!');
-  //   console.log(game.moveStack);
-  // } else {
-  //   // game.moveStack = [];
-  // }
 }
 gameLoop.render = function () {
   game.render();
 }
 gameLoop.update = function () {
-  console.log(player.inner)
-  // // game.moveStack.push('moveDown');
-  // if (game.moveStack.length > 0) {
-  //   // we do NOT want to pop() it
-  //   let cmd = game.moveStack[game.moveStack.length-1];
-  //   player[cmd]();
-  // }
-  // game.moveStack = ['moveDown']
-
-  // player.moveDown();
-  // if (game.hasCollision()) {
-  //   player.moveUp();
-  //   game.mergeTileIntoField();
-  //   game.readyPlayer();
-  //   gameField.cleanup();
-  // }
+  player.moveDown();
+  if (game.hasCollision()) {
+    player.moveUp();
+    game.mergeTileIntoField();
+    game.readyPlayer();
+    gameField.cleanup();
+  }
 }
 gameLoop.runGame();
 

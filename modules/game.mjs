@@ -31,24 +31,20 @@ export default class Game {
               // left bound
               if (this.player.inner.x < 0) {
                 console.log('LEFT');
-                this.player.position.x = 0 - this.player.inner.dx;
-                return 'left';
+                // this.player.position.x = 0 - this.player.inner.dx;
               }
               // right bound
               if ((this.player.inner.x + this.player.width)
                   >= this.field.cols) {
                 console.log('RIGHT');
-                this.player.position.x = this.field.cols - this.player.width
-                return 'right';
+                // this.player.position.x = this.field.cols - this.player.width
               }
               // bottom
               if ((this.player.inner.y + this.player.height)
                   > this.field.matrix.length) {
                 console.log('BOTTOM');
                 // this.player.position.y = this.field.rows - this.player.height
-                return 'bottom'
               }
-
               return true;
         }
       }
