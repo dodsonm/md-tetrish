@@ -1,28 +1,45 @@
 import Observer from './observer.mjs';
 
 export default class GameController {
-  constructor() {
+  game;
+
+  constructor(game) {
+    this.game = game;
+
     document.addEventListener('keydown', (e) => {
       switch (e.keyCode) {
         case 37: // keypad left
-          Observer.dispatch('input/move', 'left');
-          // playerMove(-1);
+          this.game.player.moveLeft();
+          Observer.dispatch('player/move', 'moveLeft');
+          // if (this.game.hasCollision()) {
+          //   this.game.player.moveRight();
+          // }
           break;
         case 39: // keypad right
-          Observer.dispatch('input/move', 'right');
-          //playerMove(1);
+          this.game.player.moveRight();
+          Observer.dispatch('player/move', 'moveRight');
+          // if (this.game.hasCollision()) {
+          //   this.game.player.moveLeft();
+          // }
+          break;
+        case 38:
+          this.game.player.moveUp();
           break;
         case 40: // keypad down
-          Observer.dispatch('input/move', 'down');
-          //playerDrop();
+          this.game.player.moveDown();
+          Observer.dispatch('player/move', 'moveDown');
+          // if (this.game.hasCollision()) {
+          //   this.game.player.moveUp();
+          //   this.game.mergeTileIntoField();
+          //   this.game.readyPlayer();
+          //   this.game.field.cleanup();
+          // }
           break;
         case 81: // Q
-          Observer.dispatch('input/rotate', -1);
-          //playerRotate(-1);
+          this.game.player.rotate(-1);
           break;
         case 87: // W
-          Observer.dispatch('input/rotate', 1);
-          //playerRotate(1);
+          this.game.player.rotate(1);
           break;
       }
     });

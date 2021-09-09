@@ -1,3 +1,5 @@
+import GameController from './game-controller.mjs';
+import Observer from './observer.mjs';
 import { draw as drawRect } from './rect.mjs';
 import { draw as drawMatrix } from './dot-matrix.mjs';
 
@@ -5,11 +7,19 @@ export default class Game {
   board;
   field;
   player;
+  controller;
+  // stack;
 
   constructor(b, f, p) {
     this.board = b;
     this.field = f;
     this.player = p;
+    this.controller = new GameController(this);
+    // this.moveStack = [];
+    //
+    // Observer.on('player/move', (action, payload) => {
+    //   this.moveStack.push(payload);
+    // });
   }
   hasCollision() {
     const [m, o] = [this.player.tile.matrix, this.player.position];
@@ -18,6 +28,27 @@ export default class Game {
         if (!!m[y][x] && // is this x/y part of the visible player piece?..
             (this.field.matrix[y + o.y] && // check this.field.matrix has this row and...
             this.field.matrix[y + o.y][x + o.x]) !== 0) { // current coordinate is not 0
+              // left bound
+              if (this.player.inner.x < 0) {
+                console.log('LEFT');
+                this.player.position.x = 0 - this.player.inner.dx;
+                return 'left';
+              }
+              // right bound
+              if ((this.player.inner.x + this.player.width)
+                  >= this.field.cols) {
+                console.log('RIGHT');
+                this.player.position.x = this.field.cols - this.player.width
+                return 'right';
+              }
+              // bottom
+              if ((this.player.inner.y + this.player.height)
+                  > this.field.matrix.length) {
+                console.log('BOTTOM');
+                // this.player.position.y = this.field.rows - this.player.height
+                return 'bottom'
+              }
+
               return true;
         }
       }
@@ -50,4 +81,5 @@ export default class Game {
       });
     });
   }
+
 }

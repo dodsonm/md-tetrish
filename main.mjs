@@ -1,18 +1,9 @@
 import Game from './modules/game.mjs';
 import GameBoard from './modules/game-board.mjs';
 import GameField from './modules/game-field.mjs';
+import GameLoop from './modules/game-loop.mjs';
 import Player from './modules/player.mjs';
 
-import GameLoop from './modules/game-loop.mjs';
-// import GameController from './modules/game-controller.mjs';
-// import Observer from './modules/observer.mjs';
-//
-// THIS WAS IN PLAYER CONSTRUCTOR
-// GAME OVER
-// if (collide(ARENA, PLAYER)) {
-//   ARENA.forEach(row => row.fill(0));
-// }
-//
 const GAME_CONFIG = {
   bgc: '#00000066',
   cols: 12,
@@ -34,58 +25,64 @@ let gameBoard =
 let gameField = new GameField(GAME_CONFIG.cols, GAME_CONFIG.rows);
 let player = new Player();
 let game = new Game(gameBoard, gameField, player);
+let gameLoop = new GameLoop();
+
 game.readyPlayer();
 game.render();
 
-let gameLoop = new GameLoop();
-//
-// gameLoop.processInput = function () {
-//   // console.log('processInput ', this);
-// }
+gameLoop.processInput = function () {
+  switch(game.hasCollision()) {
+    case 'left': break;
+    case 'right': break;
+    case 'bottom':
+    case true:
+      player.moveUp();
+      game.mergeTileIntoField();
+      game.readyPlayer();
+      gameField.cleanup();
+      break;
+  }
+  // if (game.moveStack.length > 0) {
+  //   // we do NOT want to pop() it
+  //   let cmd = game.moveStack[game.moveStack.length-1];
+  //   player[cmd]();
+  // }
+  // if (game.hasCollision()) {
+  //   console.log('BANG!');
+  //   console.log(game.moveStack);
+  // } else {
+  //   // game.moveStack = [];
+  // }
+}
 gameLoop.render = function () {
   game.render();
 }
 gameLoop.update = function () {
-  player.moveDown();
-  if (game.hasCollision()) {
-    player.moveUp();
-    game.mergeTileIntoField();
-    game.readyPlayer();
-    gameField.cleanup();
-  }
+  console.log(player.inner)
+  // // game.moveStack.push('moveDown');
+  // if (game.moveStack.length > 0) {
+  //   // we do NOT want to pop() it
+  //   let cmd = game.moveStack[game.moveStack.length-1];
+  //   player[cmd]();
+  // }
+  // game.moveStack = ['moveDown']
+
+  // player.moveDown();
+  // if (game.hasCollision()) {
+  //   player.moveUp();
+  //   game.mergeTileIntoField();
+  //   game.readyPlayer();
+  //   gameField.cleanup();
+  // }
 }
 gameLoop.runGame();
 
-
+// THIS WAS IN PLAYER CONSTRUCTOR
+// GAME OVER
+// if (collide(ARENA, PLAYER)) {
+//   ARENA.forEach(row => row.fill(0));
+// }
 //
-//
-// let gameController = new GameController();
-//
-// Observer.on('input/move', (action, payload) => {
-//   console.log(action,  payload);
-//   switch (payload) {
-//     case "left":
-//       // move left
-//       break;
-//     case "right":
-//       // move right
-//       break;
-//     case "down":
-//       // move down
-//       break;
-//   }
-// })
-// Observer.on('input/rotate', (action, payload) => {
-//   console.log(action,  payload);
-//   switch (payload) {
-//     case 1:
-//       //rotate clockwise
-//       break;
-//     case -1:
-//       // rotate counter-clockwise
-//       break;
-//   }
-// })
 
 // -------------------------
 // If we get this far, then its safe to remove the noscript & feature-check
