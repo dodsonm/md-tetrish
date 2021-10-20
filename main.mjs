@@ -11,7 +11,7 @@ const GAME_CONFIG = {
   hostEl: document.querySelector('#tetrish-game'),
   ref: 'game-board',
   rows: 20,
-  scale: 20,
+  scale: 13,
   get width() { return this.cols * this.scale },
 };
 let gameBoard =
