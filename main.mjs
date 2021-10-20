@@ -2,6 +2,7 @@ import Game from './modules/game.mjs';
 import GameBoard from './modules/game-board.mjs';
 import GameField from './modules/game-field.mjs';
 import GameLoop from './modules/game-loop.mjs';
+import Observer from './modules/observer.mjs';
 import Player from './modules/player.mjs';
 
 const GAME_CONFIG = {
@@ -9,6 +10,7 @@ const GAME_CONFIG = {
   cols: 12,
   get height() { return this.rows * this.scale },
   hostEl: document.querySelector('#tetrish-game'),
+  scoreEl: document.querySelector('#game-score'),
   ref: 'game-board',
   rows: 20,
   scale: 13,
@@ -26,6 +28,7 @@ let gameField = new GameField(GAME_CONFIG.cols, GAME_CONFIG.rows);
 let player = new Player();
 let game = new Game(gameBoard, gameField, player);
 let gameLoop = new GameLoop();
+let score = 0;
 
 game.readyPlayer();
 game.render();
@@ -44,6 +47,10 @@ gameLoop.update = function () {
     gameField.cleanup();
   }
 }
+Observer.on(GameField.ROW_CLEARED, () => {
+  GAME_CONFIG.scoreEl.textContent = ++score;
+});
+
 gameLoop.runGame();
 
 // THIS WAS IN PLAYER CONSTRUCTOR
